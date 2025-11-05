@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://cd4lkj6mmsiud"]
+
+[ext_resource type="Texture2D" uid="uid://b3fa5nj5dppjm" path="res://assets/slot.svg" id="1_4v6ba"]
+[ext_resource type="Script" uid="uid://dmyrx2mpsowu0" path="res://scenes/slot.gd" id="2_ic0fu"]
+
+[node name="Slot" type="TextureRect"]
+custom_minimum_size = Vector2(86, 86)
+offset_right = 64.0
+offset_bottom = 64.0
+texture = ExtResource("1_4v6ba")
+expand_mode = 1
+stretch_mode = 4
+script = ExtResource("2_ic0fu")
