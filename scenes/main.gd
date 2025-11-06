@@ -3,6 +3,11 @@ extends CanvasItem
 var slots:=[]
 var currentlyRed:=false
 
+enum scoreOutcome {none,blue,red}
+
+var redScore:=0
+var blueScore:=0
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	setupBoard()
@@ -41,40 +46,45 @@ func move(col:int,red:bool)->bool:
 	#slots[row][col].get_node('Piece').show()
 	$"Placing Cooldown".start()
 	var score:=scoreBoard()
-	if score!=&"none":
-		print(score+" Won!")
-		var time=1+pow((row*-172)/(piece.get_gravity().y),0.5)
+	if score!=scoreOutcome.none:
+		var time=1+((row*0.175510204082)**0.5)
 		print(time)
 		await get_tree().create_timer(time).timeout
+		if score==scoreOutcome.blue:
+			blueScore+=1
+			%BlueScore.text=str(blueScore)
+		else:
+			redScore+=1
+			%RedScore.text=str(redScore)
 		print('reset')
 		clear()
 	return true
 	
-func scoreBoard()->StringName:
+func scoreBoard()->scoreOutcome:
 	#Verticals
 	for y in range(3):
 		for x in range(7):
 			if slots[y][x].red==slots[y+1][x].red and slots[y][x].red==slots[y+2][x].red and slots[y][x].red==slots[y+3][x].red and slots[y][x].filled and slots[y+1][x].filled and slots[y+2][x].filled and slots[y+3][x].filled:
-				return &"red" if slots[y][x].red else &"blue"
+				return scoreOutcome.red if slots[y][x].red else scoreOutcome.blue
 				
 	# Horazontals
 	for y in range(6):
 		for x in range(4):
 			if slots[y][x].red==slots[y][x+1].red and slots[y][x].red==slots[y][x+2].red and slots[y][x].red==slots[y][x+3].red and slots[y][x].filled and slots[y][x+1].filled and slots[y][x+2].filled and slots[y][x+3].filled:
-				return &"red" if slots[y][x].red else &"blue"
+				return scoreOutcome.red if slots[y][x].red else scoreOutcome.blue
 				
 	# down-right Diagonals
 	for y in range(3):
 		for x in range(4):
 			if slots[y][x].red==slots[y+1][x+1].red and slots[y][x].red==slots[y+2][x+2].red and slots[y][x].red==slots[y+3][x+3].red and slots[y][x].filled and slots[y+1][x+1].filled and slots[y+2][x+2].filled and slots[y+3][x+3].filled:
-				return &"red" if slots[y][x].red else &"blue"
+				return scoreOutcome.red if slots[y][x].red else scoreOutcome.blue
 				
 	# up-right diagonals
 	for y in range(3):
 		for x in range(4):
 			if slots[y][x+3].red==slots[y+1][x+2].red and slots[y][x+3].red==slots[y+2][x+1].red and slots[y][x+3].red==slots[y+3][x].red and slots[y+3][x].filled and slots[y+2][x+1].filled and slots[y+1][x+2].filled and slots[y][x+3].filled:
-				return &"red" if slots[y][x].red else &"blue"
-	return &"none"
+				return scoreOutcome.red if slots[y][x].red else scoreOutcome.blue
+	return scoreOutcome.none
 
 func clear()->void:
 	$ClearTimer.start()
