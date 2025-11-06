@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://crocoqam207q6"]
+
+[ext_resource type="Texture2D" uid="uid://wjf0y7l1aa88" path="res://assets/piece.svg" id="1_gebih"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_s58gp"]
+radius = 42.9
+
+[node name="Piece" type="RigidBody2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+z_index = -1
+scale = Vector2(0.75, 0.75)
+texture = ExtResource("1_gebih")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_s58gp")

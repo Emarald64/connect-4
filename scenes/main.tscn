@@ -1,6 +1,9 @@
-[gd_scene load_steps=2 format=3 uid="uid://djgj8htnohbn4"]
+[gd_scene load_steps=3 format=3 uid="uid://djgj8htnohbn4"]
 
 [ext_resource type="Script" uid="uid://cvu2urblddtwg" path="res://scenes/main.gd" id="1_o5qli"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_o5qli"]
+size = Vector2(616, 20)
 
 [node name="main" type="Control"]
 layout_mode = 3
@@ -30,3 +33,17 @@ columns = 7
 [node name="PanelContainer" type="PanelContainer" parent="HBoxContainer"]
 custom_minimum_size = Vector2(256, 0)
 layout_mode = 2
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(301, 612)
+shape = SubResource("RectangleShape2D_o5qli")
+
+[node name="Placing Cooldown" type="Timer" parent="."]
+wait_time = 0.25
+one_shot = true
+
+[node name="ClearTimer" type="Timer" parent="."]
+wait_time = 3.0
+one_shot = true
