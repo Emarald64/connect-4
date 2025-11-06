@@ -2,8 +2,6 @@
 
 ![hackatime](https://hackatime-badge.hackclub.com/U0785D5VDEK/connect-4)
 
-Platforming game where you switch gravity instead of jump.
-
 Made with the Godot Engine
 
 ## To play:

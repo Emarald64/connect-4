@@ -1,7 +1,6 @@
-[gd_scene load_steps=5 format=3 uid="uid://cd4lkj6mmsiud"]
+[gd_scene load_steps=4 format=3 uid="uid://cd4lkj6mmsiud"]
 
 [ext_resource type="Texture2D" uid="uid://b3fa5nj5dppjm" path="res://assets/slot.svg" id="1_4v6ba"]
-[ext_resource type="Script" uid="uid://dmyrx2mpsowu0" path="res://scenes/slot.gd" id="2_ic0fu"]
 [ext_resource type="Texture2D" uid="uid://wjf0y7l1aa88" path="res://assets/piece.svg" id="3_vqyee"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_vqyee"]
@@ -11,7 +10,6 @@ size = Vector2(1, 86)
 offset_right = 64.0
 offset_bottom = 64.0
 texture = ExtResource("1_4v6ba")
-script = ExtResource("2_ic0fu")
 
 [node name="Piece" type="TextureRect" parent="."]
 visible = false

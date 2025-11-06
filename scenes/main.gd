@@ -1,9 +1,9 @@
-extends CanvasItem
+class_name Main extends CanvasItem
 
-var slots:=[]
+var slots:Array[Array]=[]
 var currentlyRed:=false
 
-enum scoreOutcome {none,blue,red}
+enum scoreOutcome {none,blue,red,draw}
 
 var redScore:=0
 var blueScore:=0
@@ -22,7 +22,7 @@ func setupBoard()->void:
 		slots.append(Array())
 		for x in range(7):
 			var slot=preload("res://scenes/slot.tscn").instantiate()
-			slots[y].append(slot)
+			slots[y].append(Slot.new())
 			%Board.add_child(slot)
 
 func moveWithChangingColor(col:int)->void:
@@ -45,7 +45,7 @@ func move(col:int,red:bool)->bool:
 	add_child(piece)
 	#slots[row][col].get_node('Piece').show()
 	$"Placing Cooldown".start()
-	var score:=scoreBoard()
+	var score:=scoreBoard(slots)
 	if score!=scoreOutcome.none:
 		var time=1+((row*0.175510204082)**0.5)
 		print(time)
@@ -53,14 +53,15 @@ func move(col:int,red:bool)->bool:
 		if score==scoreOutcome.blue:
 			blueScore+=1
 			%BlueScore.text=str(blueScore)
-		else:
+		elif score==scoreOutcome.red:
 			redScore+=1
 			%RedScore.text=str(redScore)
 		print('reset')
-		clear()
+		clear(score==scoreOutcome.red)
 	return true
 	
-func scoreBoard()->scoreOutcome:
+@warning_ignore("shadowed_variable")
+static func scoreBoard(slots:Array[Array])->scoreOutcome:
 	#Verticals
 	for y in range(3):
 		for x in range(7):
@@ -84,9 +85,16 @@ func scoreBoard()->scoreOutcome:
 		for x in range(4):
 			if slots[y][x+3].red==slots[y+1][x+2].red and slots[y][x+3].red==slots[y+2][x+1].red and slots[y][x+3].red==slots[y+3][x].red and slots[y+3][x].filled and slots[y+2][x+1].filled and slots[y+1][x+2].filled and slots[y][x+3].filled:
 				return scoreOutcome.red if slots[y][x].red else scoreOutcome.blue
-	return scoreOutcome.none
+	
+	# draws
+	var willDraw=true
+	for x in range(7):
+		if not slots[0][x].filled:
+			willDraw=false
+	
+	return scoreOutcome.draw if willDraw else scoreOutcome.none
 
-func clear()->void:
+func clear(computerPlay:bool)->void:
 	$ClearTimer.start()
 	$StaticBody2D.set_collision_layer_value(1,false)
 	await $ClearTimer.timeout
@@ -94,3 +102,22 @@ func clear()->void:
 	for y in range(6):
 		for x in range(7):
 			slots[y][x].filled=false
+	if computerPlay:
+		currentlyRed=true
+		moveWithChangingColor(ComputerPlayer.getMove(slots))
+
+
+func cooldownEnded() -> void:
+	print('making computer move')
+	if currentlyRed:
+		var computerMove=ComputerPlayer.getMove(slots)
+		print("computer move"+str(computerMove))
+		moveWithChangingColor(computerMove)
+
+static func duplicateBoard(board:Array[Array]) -> Array[Array]:
+	var newBoard:Array[Array]=[]
+	for y in range(6):
+		newBoard.append(Array())
+		for x in range(7):
+			newBoard[y].append(board[y][x].duplicate())
+	return newBoard
