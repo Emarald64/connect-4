@@ -3,7 +3,7 @@ class_name ComputerPlayer
 enum scoreOutcome {none,blue,red}
 
 static func getMove(board:Array[Array])->int:
-	return 0
+	#return 0
 	var scores:Array[int]=[0,0,0,0,0,0,0]
 	for x in range(7):
 		if board[0][x].filled:

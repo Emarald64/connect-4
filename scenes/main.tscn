@@ -1,8 +1,23 @@
-[gd_scene load_steps=8 format=3 uid="uid://djgj8htnohbn4"]
+[gd_scene load_steps=17 format=3 uid="uid://djgj8htnohbn4"]
 
 [ext_resource type="Script" uid="uid://cvu2urblddtwg" path="res://scenes/main.gd" id="1_o5qli"]
 [ext_resource type="Texture2D" uid="uid://b3fa5nj5dppjm" path="res://assets/slot.svg" id="2_0wfyh"]
 [ext_resource type="Script" uid="uid://bx0wmfx5i6f6y" path="res://scenes/board.gd" id="3_sugp2"]
+[ext_resource type="AudioStream" uid="uid://dfabo7sx6gdkb" path="res://assets/music/oside_intro.ogg" id="4_tipki"]
+[ext_resource type="AudioStream" uid="uid://dy6tsdx8ge0nc" path="res://assets/music/oside_loop.ogg" id="5_85g3d"]
+[ext_resource type="AudioStream" uid="uid://ci72domkwyrcv" path="res://assets/music/Jacinthe SBC Battle Music.ogg" id="6_choun"]
+[ext_resource type="AudioStream" uid="uid://6fgbmn26hey7" path="res://assets/music/Cave Story.ogg" id="7_ya4ey"]
+[ext_resource type="AudioStream" uid="uid://h466ulpdbuvu" path="res://assets/music/1.10 Studiopolis Zone Act 1.mp3" id="8_eb6dy"]
+
+[sub_resource type="DPITexture" id="DPITexture_trceg"]
+_source = "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"32\" height=\"16\"><rect width=\"30\" height=\"14\" x=\"1\" y=\"1\" fill=\"#fff\" fill-opacity=\".75\" rx=\"7\"/><circle cx=\"24\" cy=\"8\" r=\"5\" fill=\"#1a1a1a\"/></svg>
+"
+base_scale = 3.0
+
+[sub_resource type="DPITexture" id="DPITexture_a8y0u"]
+_source = "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"32\" height=\"16\"><g fill-opacity=\".5\"><rect width=\"30\" height=\"14\" x=\"1\" y=\"1\" fill=\"#1a1a1a\" rx=\"7\"/><circle cx=\"8\" cy=\"8\" r=\"5\" fill=\"#fff\"/></g></svg>
+"
+base_scale = 3.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_o5qli"]
 size = Vector2(616, 20)
@@ -33,6 +48,21 @@ scale_min = 8.0
 scale_max = 8.0
 alpha_curve = SubResource("CurveTexture_0wfyh")
 
+[sub_resource type="AudioStreamPlaylist" id="AudioStreamPlaylist_jkv2x"]
+resource_name = "Moonsong"
+loop = false
+fade_time = 0.0
+stream_count = 2
+stream_0 = ExtResource("4_tipki")
+stream_1 = ExtResource("5_85g3d")
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_jbj1t"]
+streams_count = 4
+stream_0/stream = SubResource("AudioStreamPlaylist_jkv2x")
+stream_1/stream = ExtResource("6_choun")
+stream_2/stream = ExtResource("7_ya4ey")
+stream_3/stream = ExtResource("8_eb6dy")
+
 [node name="main" type="Control"]
 layout_mode = 3
 anchors_preset = 15
@@ -40,6 +70,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 1
 script = ExtResource("1_o5qli")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
@@ -61,7 +92,6 @@ theme_override_constants/separation = 2
 [node name="Board" type="TextureRect" parent="HBoxContainer/VBoxContainer"]
 custom_minimum_size = Vector2(616, 516)
 layout_mode = 2
-mouse_filter = 0
 mouse_default_cursor_shape = 2
 texture = ExtResource("2_0wfyh")
 stretch_mode = 1
@@ -70,6 +100,7 @@ script = ExtResource("3_sugp2")
 [node name="PanelContainer" type="PanelContainer" parent="HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
+mouse_filter = 1
 
 [node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/PanelContainer"]
 layout_mode = 2
@@ -96,6 +127,15 @@ layout_mode = 2
 theme_override_colors/font_color = Color(1, 0, 0, 1)
 theme_override_font_sizes/font_size = 86
 text = "0"
+
+[node name="CheckButton" type="CheckButton" parent="HBoxContainer/PanelContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+theme_override_icons/checked = SubResource("DPITexture_trceg")
+theme_override_icons/unchecked = SubResource("DPITexture_a8y0u")
+text = "Mute Music"
+flat = true
+expand_icon = true
 
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
 
@@ -126,8 +166,14 @@ one_shot = true
 explosiveness = 1.0
 process_material = SubResource("ParticleProcessMaterial_sugp2")
 
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+[node name="SFXPLayer" type="AudioStreamPlayer" parent="."]
 volume_db = -10.0
 
+[node name="Music" type="AudioStreamPlayer" parent="."]
+stream = SubResource("AudioStreamRandomizer_jbj1t")
+volume_db = -20.0
+autoplay = true
+
 [connection signal="boardClicked" from="HBoxContainer/VBoxContainer/Board" to="." method="moveWithChangingColor"]
+[connection signal="toggled" from="HBoxContainer/PanelContainer/VBoxContainer/CheckButton" to="Music" method="set_stream_paused"]
 [connection signal="timeout" from="Placing Cooldown" to="." method="checkPlayComputerMove"]

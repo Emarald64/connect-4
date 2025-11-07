@@ -65,13 +65,15 @@ func move(col:int,red:bool)->bool:
 				$GPUParticles2D.process_material.color=Color(0.0, 0.6, 1.0, 1.0)
 				blueScore+=1
 				%BlueScore.text=str(blueScore)
-				$AudioStreamPlayer.stream=preload("res://assets/tada.mp3")
+				$SFXPLayer.volume_db=-10
+				$SFXPLayer.stream=preload("res://assets/tada.mp3")
 			elif score==scoreOutcome.red:
 				$GPUParticles2D.process_material.color=Color.RED
 				redScore+=1
 				%RedScore.text=str(redScore)
-				$AudioStreamPlayer.stream=preload("res://assets/buzzer.mp3")
-		$AudioStreamPlayer.play()
+				$SFXPLayer.volume_db=-15
+				$SFXPLayer.stream=preload("res://assets/buzzer.mp3")
+		$SFXPLayer.play()
 		$GPUParticles2D.emitting=true
 		await get_tree().create_timer(2).timeout
 		#print('reset')
@@ -134,9 +136,7 @@ func clear(computerPlay:bool)->void:
 
 func checkPlayComputerMove() -> void:
 	if currentlyRed:
-		var computerMove=ComputerPlayer.getMove(slots)
-		print("computer move"+str(computerMove))
-		moveWithChangingColor(computerMove)
+		moveWithChangingColor(ComputerPlayer.getMove(slots))
 
 static func duplicateBoard(board:Array[Array]) -> Array[Array]:
 	var newBoard:Array[Array]=[]

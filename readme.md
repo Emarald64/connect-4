@@ -2,6 +2,8 @@
 
 ![hackatime](https://hackatime-badge.hackclub.com/U0785D5VDEK/connect-4)
 
+Get 4 pieces in a row before your opponent does to win!
+
 Made with the Godot Engine
 
 ## To play:
