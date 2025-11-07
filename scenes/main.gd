@@ -8,6 +8,8 @@ enum scoreOutcome {none,blue,red,draw}
 var redScore:=0
 var blueScore:=0
 
+static var winningLine:Array[Vector2i]=[]
+
 var clearing:=false
 
 # Called when the node enters the scene tree for the first time.
@@ -48,17 +50,25 @@ func move(col:int,red:bool)->bool:
 	var score:=scoreBoard(slots)
 	if score!=scoreOutcome.none:
 		for i in range(2):
-		print(time)
-		var time=1+(0.418939379961*(row**0.5))
+				var linePoint:=Vector2(winningLine[i])
+				linePoint.x=(linePoint.x*88)+44
+				linePoint.y=(linePoint.y*86)+129
+				print(winningLine[i])
+				print(linePoint)
+				$Line2D.set_point_position(i,linePoint)
+		var time=(0.418939379961*(row**0.5))
 		clearing=true
 		await get_tree().create_timer(time).timeout
-		if score==scoreOutcome.blue:
-			blueScore+=1
-			%BlueScore.text=str(blueScore)
-		elif score==scoreOutcome.red:
-			redScore+=1
-			%RedScore.text=str(redScore)
-		print('reset')
+		if score!=scoreOutcome.draw:
+			$Line2D.show()
+			if score==scoreOutcome.blue:
+				blueScore+=1
+				%BlueScore.text=str(blueScore)
+			elif score==scoreOutcome.red:
+				redScore+=1
+				%RedScore.text=str(redScore)
+		await get_tree().create_timer(2).timeout
+		#print('reset')
 		clear(score==scoreOutcome.red)
 	else:$"Placing Cooldown".start()
 	return true
@@ -69,24 +79,28 @@ static func scoreBoard(slots:Array[Array])->scoreOutcome:
 	for y in range(3):
 		for x in range(7):
 			if slots[y][x].red==slots[y+1][x].red and slots[y][x].red==slots[y+2][x].red and slots[y][x].red==slots[y+3][x].red and slots[y][x].filled and slots[y+1][x].filled and slots[y+2][x].filled and slots[y+3][x].filled:
+				winningLine=[Vector2i(x,y),Vector2i(x,y+3)]
 				return scoreOutcome.red if slots[y][x].red else scoreOutcome.blue
 				
 	# Horazontals
 	for y in range(6):
 		for x in range(4):
 			if slots[y][x].red==slots[y][x+1].red and slots[y][x].red==slots[y][x+2].red and slots[y][x].red==slots[y][x+3].red and slots[y][x].filled and slots[y][x+1].filled and slots[y][x+2].filled and slots[y][x+3].filled:
+				winningLine=[Vector2i(x,y),Vector2i(x+3,y)]
 				return scoreOutcome.red if slots[y][x].red else scoreOutcome.blue
 				
 	# down-right Diagonals
 	for y in range(3):
 		for x in range(4):
 			if slots[y][x].red==slots[y+1][x+1].red and slots[y][x].red==slots[y+2][x+2].red and slots[y][x].red==slots[y+3][x+3].red and slots[y][x].filled and slots[y+1][x+1].filled and slots[y+2][x+2].filled and slots[y+3][x+3].filled:
+				winningLine=[Vector2i(x,y),Vector2i(x+3,y+3)]
 				return scoreOutcome.red if slots[y][x].red else scoreOutcome.blue
 				
 	# up-right diagonals
 	for y in range(3):
 		for x in range(4):
 			if slots[y][x+3].red==slots[y+1][x+2].red and slots[y][x+3].red==slots[y+2][x+1].red and slots[y][x+3].red==slots[y+3][x].red and slots[y+3][x].filled and slots[y+2][x+1].filled and slots[y+1][x+2].filled and slots[y][x+3].filled:
+				winningLine=[Vector2i(x+3,y),Vector2i(x,y+3)]
 				return scoreOutcome.red if slots[y][x].red else scoreOutcome.blue
 	
 	# draws
@@ -100,6 +114,7 @@ static func scoreBoard(slots:Array[Array])->scoreOutcome:
 func clear(computerPlay:bool)->void:
 	$ClearTimer.start()
 	$StaticBody2D.set_collision_layer_value(1,false)
+	$Line2D.hide()
 	await $ClearTimer.timeout
 	$StaticBody2D.set_collision_layer_value(1,true)
 	for y in range(6):
