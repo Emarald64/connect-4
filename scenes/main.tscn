@@ -1,9 +1,35 @@
-[gd_scene load_steps=3 format=3 uid="uid://djgj8htnohbn4"]
+[gd_scene load_steps=6 format=3 uid="uid://djgj8htnohbn4"]
 
 [ext_resource type="Script" uid="uid://cvu2urblddtwg" path="res://scenes/main.gd" id="1_o5qli"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_o5qli"]
 size = Vector2(616, 20)
+
+[sub_resource type="Curve" id="Curve_o5qli"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.75, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), -4.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_0wfyh"]
+curve = SubResource("Curve_o5qli")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_sugp2"]
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(250, 1, 1)
+angle_min = -179.99998
+angle_max = 180.00002
+direction = Vector3(0, -1, 0)
+spread = 15.0
+initial_velocity_min = 500.0
+initial_velocity_max = 600.0
+angular_velocity_min = -200.00002
+angular_velocity_max = 199.99998
+radial_velocity_min = -2.2351742e-05
+radial_velocity_max = -2.2351742e-05
+gravity = Vector3(0, 500, 0)
+scale_min = 8.0
+scale_max = 8.0
+alpha_curve = SubResource("CurveTexture_0wfyh")
 
 [node name="main" type="Control"]
 layout_mode = 3
@@ -78,5 +104,18 @@ one_shot = true
 visible = false
 z_index = 5
 points = PackedVector2Array(0, 0, 0, 0)
+begin_cap_mode = 2
+end_cap_mode = 2
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="."]
+position = Vector2(298, 647)
+emitting = false
+amount = 64
+one_shot = true
+explosiveness = 1.0
+process_material = SubResource("ParticleProcessMaterial_sugp2")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+volume_db = -10.0
 
 [connection signal="timeout" from="Placing Cooldown" to="." method="checkPlayComputerMove"]

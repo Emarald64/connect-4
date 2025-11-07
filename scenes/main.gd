@@ -62,11 +62,17 @@ func move(col:int,red:bool)->bool:
 		if score!=scoreOutcome.draw:
 			$Line2D.show()
 			if score==scoreOutcome.blue:
+				$GPUParticles2D.process_material.color=Color(0.0, 0.6, 1.0, 1.0)
 				blueScore+=1
 				%BlueScore.text=str(blueScore)
+				$AudioStreamPlayer.stream=preload("res://assets/tada.mp3")
 			elif score==scoreOutcome.red:
+				$GPUParticles2D.process_material.color=Color.RED
 				redScore+=1
 				%RedScore.text=str(redScore)
+				$AudioStreamPlayer.stream=preload("res://assets/buzzer.mp3")
+		$AudioStreamPlayer.play()
+		$GPUParticles2D.emitting=true
 		await get_tree().create_timer(2).timeout
 		#print('reset')
 		clear(score==scoreOutcome.red)
