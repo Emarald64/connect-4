@@ -3,6 +3,7 @@ class_name ComputerPlayer
 enum scoreOutcome {none,blue,red}
 
 static func getMove(board:Array[Array])->int:
+	#return 0
 	var scores:Array[int]=[0,0,0,0,0,0,0]
 	for x in range(7):
 		if board[0][x].filled:
@@ -20,7 +21,7 @@ static func getMove(board:Array[Array])->int:
 			
 			# If can win this turn play the move
 			if Main.scoreBoard(boardCopy)==scoreOutcome.red:
-				print(str(x)+" will win the the game")
+				print(str(x)+" will win the game")
 				return x
 			
 			# sumulate oponent moves
@@ -35,7 +36,7 @@ static func getMove(board:Array[Array])->int:
 					boardCopy2[row2][x2].filled=true
 					boardCopy2[row2][x2].red=false
 					if Main.scoreBoard(boardCopy2)==scoreOutcome.blue:
-						print(str(x)+'will make blue win')
+						print(str(x)+','+str(x2)+' will make blue win')
 						scores[x]=-1
 						break
 	

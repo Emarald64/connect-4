@@ -67,11 +67,15 @@ position = Vector2(301, 612)
 shape = SubResource("RectangleShape2D_o5qli")
 
 [node name="Placing Cooldown" type="Timer" parent="."]
-wait_time = 1.5
+wait_time = 0.5
 one_shot = true
 
 [node name="ClearTimer" type="Timer" parent="."]
-wait_time = 3.0
+wait_time = 2.0
 one_shot = true
 
-[connection signal="timeout" from="Placing Cooldown" to="." method="cooldownEnded"]
+[node name="Line2D" type="Line2D" parent="."]
+z_index = 5
+points = PackedVector2Array(0, 0, 0, 0)
+
+[connection signal="timeout" from="Placing Cooldown" to="." method="checkPlayComputerMove"]

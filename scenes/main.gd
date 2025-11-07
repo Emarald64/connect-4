@@ -8,6 +8,8 @@ enum scoreOutcome {none,blue,red,draw}
 var redScore:=0
 var blueScore:=0
 
+var clearing:=false
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	setupBoard()
@@ -22,6 +24,7 @@ func setupBoard()->void:
 		slots.append(Array())
 		for x in range(7):
 			var slot=preload("res://scenes/slot.tscn").instantiate()
+			slot.pressed.connect(moveWithChangingColor.bind(x))
 			slots[y].append(Slot.new())
 			%Board.add_child(slot)
 
@@ -30,13 +33,11 @@ func moveWithChangingColor(col:int)->void:
 		currentlyRed=not currentlyRed
 
 func move(col:int,red:bool)->bool:
-	if slots[0][col].filled or not $"Placing Cooldown".is_stopped() or not $ClearTimer.is_stopped():
-		print('full')
+	if slots[0][col].filled or not $"Placing Cooldown".is_stopped() or clearing:
 		return false
 	var row=0
 	while row<5 and not slots[row+1][col].filled:
 		row+=1
-	print(row)
 	slots[row][col].filled=true
 	slots[row][col].red=red
 	var piece=preload("res://scenes/piece.tscn").instantiate()
@@ -44,11 +45,12 @@ func move(col:int,red:bool)->bool:
 	piece.modulate=Color(1,0,0) if red else Color(0.0, 0.6, 1.0, 1.0)
 	add_child(piece)
 	#slots[row][col].get_node('Piece').show()
-	$"Placing Cooldown".start()
 	var score:=scoreBoard(slots)
 	if score!=scoreOutcome.none:
-		var time=1+((row*0.175510204082)**0.5)
+		for i in range(2):
 		print(time)
+		var time=1+(0.418939379961*(row**0.5))
+		clearing=true
 		await get_tree().create_timer(time).timeout
 		if score==scoreOutcome.blue:
 			blueScore+=1
@@ -58,6 +60,7 @@ func move(col:int,red:bool)->bool:
 			%RedScore.text=str(redScore)
 		print('reset')
 		clear(score==scoreOutcome.red)
+	else:$"Placing Cooldown".start()
 	return true
 	
 @warning_ignore("shadowed_variable")
@@ -103,12 +106,12 @@ func clear(computerPlay:bool)->void:
 		for x in range(7):
 			slots[y][x].filled=false
 	if computerPlay:
-		currentlyRed=true
-		moveWithChangingColor(ComputerPlayer.getMove(slots))
+		move(ComputerPlayer.getMove(slots),true)
+	currentlyRed=false
+	clearing=false
 
 
-func cooldownEnded() -> void:
-	print('making computer move')
+func checkPlayComputerMove() -> void:
 	if currentlyRed:
 		var computerMove=ComputerPlayer.getMove(slots)
 		print("computer move"+str(computerMove))
