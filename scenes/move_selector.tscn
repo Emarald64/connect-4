@@ -8,6 +8,7 @@ offset_right = 86.0
 offset_bottom = 86.0
 size_flags_horizontal = 4
 size_flags_vertical = 4
+mouse_default_cursor_shape = 2
 flat = true
 
 [node name="TextureRect" type="TextureRect" parent="."]

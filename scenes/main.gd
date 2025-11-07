@@ -20,15 +20,15 @@ func setupBoard()->void:
 	for i in range(7):
 		var selector=preload("res://scenes/move_selector.tscn").instantiate()
 		selector.pressed.connect(moveWithChangingColor.bind(i))
-		%Board.add_child(selector)
+		$HBoxContainer/VBoxContainer/HBoxContainer.add_child(selector)
 	# Build grid 
 	for y in range(6):
 		slots.append(Array())
 		for x in range(7):
-			var slot=preload("res://scenes/slot.tscn").instantiate()
-			slot.pressed.connect(moveWithChangingColor.bind(x))
+			#var slot=preload("res://scenes/slot.tscn").instantiate()
+			#slot.pressed.connect(moveWithChangingColor.bind(x))
+			#%Board.add_child(slot)
 			slots[y].append(Slot.new())
-			%Board.add_child(slot)
 
 func moveWithChangingColor(col:int)->void:
 	if await move(col,currentlyRed):
