@@ -10,7 +10,7 @@ func _physics_process(_delta: float) -> void:
 	if abs(position.y-convertBoardPosToWorldPos(targetPos).y)<10:
 		for y in range(targetPos.y,6):
 			if physicsPieces[y][targetPos.x]!=null:
-				physicsPieces[y][targetPos.x].queue_free()
+				physicsPieces[y][targetPos.x].get_node('AnimationPlayer').play('explosion')
 			board[y][targetPos.x].filled=false
 		queue_free()
 		get_node('../SFXPLayer').stream=preload("res://assets/deltarune-explosion.mp3")

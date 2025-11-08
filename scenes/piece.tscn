@@ -1,9 +1,174 @@
-[gd_scene load_steps=3 format=3 uid="uid://crocoqam207q6"]
+[gd_scene load_steps=24 format=3 uid="uid://crocoqam207q6"]
 
 [ext_resource type="Texture2D" uid="uid://wjf0y7l1aa88" path="res://assets/piece.svg" id="1_gebih"]
+[ext_resource type="Texture2D" uid="uid://c7i78pwvuerb2" path="res://assets/explosion/frame_1.png" id="2_bwe30"]
+[ext_resource type="Texture2D" uid="uid://dhasggm1vduog" path="res://assets/explosion/frame_2.png" id="3_vuip7"]
+[ext_resource type="Texture2D" uid="uid://cwingwvllxv6u" path="res://assets/explosion/frame_3.png" id="4_gc5gv"]
+[ext_resource type="Texture2D" uid="uid://cvja65mlwngck" path="res://assets/explosion/frame_4.png" id="5_r8s3s"]
+[ext_resource type="Texture2D" uid="uid://bllk2b2btqkul" path="res://assets/explosion/frame_5.png" id="6_h8j57"]
+[ext_resource type="Texture2D" uid="uid://xq55ybj2wb8q" path="res://assets/explosion/frame_6.png" id="7_teuxf"]
+[ext_resource type="Texture2D" uid="uid://b4cce42is6lss" path="res://assets/explosion/frame_7.png" id="8_aub2y"]
+[ext_resource type="Texture2D" uid="uid://c23tjmw6j3yic" path="res://assets/explosion/frame_8.png" id="9_f4ahi"]
+[ext_resource type="Texture2D" uid="uid://ftglnup571fm" path="res://assets/explosion/frame_9.png" id="10_3rqmx"]
+[ext_resource type="Texture2D" uid="uid://bca7ct5y2o3c" path="res://assets/explosion/frame_10.png" id="11_6412i"]
+[ext_resource type="Texture2D" uid="uid://oc0l125kqmsj" path="res://assets/explosion/frame_11.png" id="12_3wagd"]
+[ext_resource type="Texture2D" uid="uid://dd6nqwpfyj5ja" path="res://assets/explosion/frame_12.png" id="13_be50e"]
+[ext_resource type="Texture2D" uid="uid://ddxortyhn6ad" path="res://assets/explosion/frame_13.png" id="14_snf4i"]
+[ext_resource type="Texture2D" uid="uid://wekvqn2di3wm" path="res://assets/explosion/frame_14.png" id="15_spk7d"]
+[ext_resource type="Texture2D" uid="uid://7cfbculpipnq" path="res://assets/explosion/frame_15.png" id="16_jdw5l"]
+[ext_resource type="Texture2D" uid="uid://dvdtur2q61bwt" path="res://assets/explosion/frame_16.png" id="17_v0mkw"]
+[ext_resource type="Texture2D" uid="uid://svuveijywu00" path="res://assets/explosion/frame_17.png" id="18_6fbrs"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_s58gp"]
 radius = 42.9
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ei735"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_bwe30")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_vuip7")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_gc5gv")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_r8s3s")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_h8j57")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_teuxf")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_aub2y")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_f4ahi")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_3rqmx")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_6412i")
+}, {
+"duration": 1.0,
+"texture": ExtResource("12_3wagd")
+}, {
+"duration": 1.0,
+"texture": ExtResource("13_be50e")
+}, {
+"duration": 1.0,
+"texture": ExtResource("14_snf4i")
+}, {
+"duration": 1.0,
+"texture": ExtResource("15_spk7d")
+}, {
+"duration": 1.0,
+"texture": ExtResource("16_jdw5l")
+}, {
+"duration": 1.0,
+"texture": ExtResource("17_v0mkw")
+}, {
+"duration": 1.0,
+"texture": ExtResource("18_6fbrs")
+}],
+"loop": false,
+"name": &"default",
+"speed": 10.0
+}]
+
+[sub_resource type="Animation" id="Animation_t8wl3"]
+resource_name = "explosion"
+length = 1.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Explosion:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Explosion")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [&"", 1.0, false],
+"method": &"play"
+}]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Sprite2D:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/3/type = "method"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath(".")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(1.5),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"queue_free"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_kdnln"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Explosion:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_08gx5"]
+_data = {
+&"RESET": SubResource("Animation_kdnln"),
+&"explosion": SubResource("Animation_t8wl3")
+}
 
 [node name="Piece" type="RigidBody2D"]
 
@@ -17,5 +182,17 @@ shape = SubResource("CircleShape2D_s58gp")
 
 [node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
 rect = Rect2(-43, -42, 86, 84)
+
+[node name="Explosion" type="AnimatedSprite2D" parent="."]
+visible = false
+texture_filter = 1
+scale = Vector2(1.75, 1.75)
+sprite_frames = SubResource("SpriteFrames_ei735")
+frame = 4
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_08gx5")
+}
 
 [connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="queue_free"]

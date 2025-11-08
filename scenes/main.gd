@@ -46,7 +46,7 @@ func move(col:int,red:bool)->bool:
 	var row=0
 	while row<5 and not slots[row+1][col].filled:
 		row+=1
-	if bombPieceProgress==9 and not red:
+	if bombPieceProgress>=10 and not red:
 		var piece=preload("res://scenes/bomb_piece.tscn").instantiate()
 		piece.position=Vector2((col*88)+44,0)
 		piece.get_node("Sprite2D").self_modulate=Color(1,0,0) if red else Color(0.0, 0.6, 1.0, 1.0)
@@ -59,7 +59,7 @@ func move(col:int,red:bool)->bool:
 		slots[row][col].red=red
 		var piece=preload("res://scenes/piece.tscn").instantiate()
 		piece.position=Vector2((col*88)+44,0)
-		piece.modulate=Color(1,0,0) if red else Color(0.0, 0.6, 1.0, 1.0)
+		piece.get_node('Sprite2D').modulate=Color(1,0,0) if red else Color(0.0, 0.6, 1.0, 1.0)
 		add_child(piece)
 		physicsPieces[row][col]=piece
 		if not red:
