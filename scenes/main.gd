@@ -1,9 +1,13 @@
 class_name Main extends CanvasItem
 
+enum scoreOutcome {none,blue,red,draw}
+
 var slots:Array[Array]=[]
+var physicsPieces:Array[Array]=[]
+
 var currentlyRed:=false
 
-enum scoreOutcome {none,blue,red,draw}
+var bombPieceProgress:=8
 
 var redScore:=0
 var blueScore:=0
@@ -24,10 +28,12 @@ func setupBoard()->void:
 	# Build grid 
 	for y in range(6):
 		slots.append(Array())
+		physicsPieces.append(Array())
 		for x in range(7):
 			#var slot=preload("res://scenes/slot.tscn").instantiate()
 			#slot.pressed.connect(moveWithChangingColor.bind(x))
 			#%Board.add_child(slot)
+			physicsPieces[y].append(null)
 			slots[y].append(Slot.new())
 
 func moveWithChangingColor(col:int)->void:
@@ -40,12 +46,25 @@ func move(col:int,red:bool)->bool:
 	var row=0
 	while row<5 and not slots[row+1][col].filled:
 		row+=1
-	slots[row][col].filled=true
-	slots[row][col].red=red
-	var piece=preload("res://scenes/piece.tscn").instantiate()
-	piece.position=Vector2((col*88)+44,0)
-	piece.modulate=Color(1,0,0) if red else Color(0.0, 0.6, 1.0, 1.0)
-	add_child(piece)
+	if bombPieceProgress==9 and not red:
+		var piece=preload("res://scenes/bomb_piece.tscn").instantiate()
+		piece.position=Vector2((col*88)+44,0)
+		piece.get_node("Sprite2D").self_modulate=Color(1,0,0) if red else Color(0.0, 0.6, 1.0, 1.0)
+		piece.targetPos=Vector2i(col,row)
+		add_child(piece)
+		bombPieceProgress=0
+		updateBombProgress()
+	else:
+		slots[row][col].filled=true
+		slots[row][col].red=red
+		var piece=preload("res://scenes/piece.tscn").instantiate()
+		piece.position=Vector2((col*88)+44,0)
+		piece.modulate=Color(1,0,0) if red else Color(0.0, 0.6, 1.0, 1.0)
+		add_child(piece)
+		physicsPieces[row][col]=piece
+		if not red:
+			bombPieceProgress+=1
+			updateBombProgress()
 	#slots[row][col].get_node('Piece').show()
 	var score:=scoreBoard(slots)
 	if score!=scoreOutcome.none:
@@ -75,6 +94,8 @@ func move(col:int,red:bool)->bool:
 				$SFXPLayer.stream=preload("res://assets/buzzer.mp3")
 		$SFXPLayer.play()
 		$GPUParticles2D.emitting=true
+		bombPieceProgress=0
+		updateBombProgress()
 		await get_tree().create_timer(2).timeout
 		#print('reset')
 		clear(score==scoreOutcome.red)
@@ -145,3 +166,7 @@ static func duplicateBoard(board:Array[Array]) -> Array[Array]:
 		for x in range(7):
 			newBoard[y].append(board[y][x].duplicate())
 	return newBoard
+	
+func updateBombProgress()->void:
+	%BombPieceProgress.value=bombPieceProgress
+	%BombPieceProgress/Label.text=str(bombPieceProgress)+'/10'

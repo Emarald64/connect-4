@@ -1,0 +1,22 @@
+[gd_scene load_steps=5 format=3 uid="uid://bk8yk6mqfjfj"]
+
+[ext_resource type="Texture2D" uid="uid://wjf0y7l1aa88" path="res://assets/piece.svg" id="1_lpwoe"]
+[ext_resource type="Script" uid="uid://gdsiqlmwawe" path="res://scenes/bomb_piece.gd" id="1_qe78m"]
+[ext_resource type="Texture2D" uid="uid://ddhhnfradhlpv" path="res://assets/bomb.svg" id="2_qe78m"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_lpwoe"]
+radius = 42.0
+
+[node name="Bomb Piece" type="RigidBody2D"]
+script = ExtResource("1_qe78m")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.75, 0.75)
+texture = ExtResource("1_lpwoe")
+
+[node name="Sprite2D" type="Sprite2D" parent="Sprite2D"]
+scale = Vector2(0.7455071, 0.7455071)
+texture = ExtResource("2_qe78m")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_lpwoe")

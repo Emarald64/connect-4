@@ -21,7 +21,7 @@ static func getMove(board:Array[Array])->int:
 			
 			# If can win this turn play the move
 			if Main.scoreBoard(boardCopy)==scoreOutcome.red:
-				print(str(x)+" will win the game")
+				#print(str(x)+" will win the game")
 				return x
 			
 			# sumulate oponent moves
