@@ -5,7 +5,7 @@
 [ext_resource type="Script" uid="uid://bx0wmfx5i6f6y" path="res://scenes/board.gd" id="3_sugp2"]
 [ext_resource type="AudioStream" uid="uid://dfabo7sx6gdkb" path="res://assets/music/oside_intro.ogg" id="4_tipki"]
 [ext_resource type="AudioStream" uid="uid://dy6tsdx8ge0nc" path="res://assets/music/oside_loop.ogg" id="5_85g3d"]
-[ext_resource type="AudioStream" uid="uid://ci72domkwyrcv" path="res://assets/music/Jacinthe SBC Battle Music.ogg" id="6_choun"]
+[ext_resource type="AudioStream" uid="uid://cvielbg1qru2" path="res://assets/music/What U Need - Sonic Rush [OST].ogg" id="6_tipki"]
 [ext_resource type="AudioStream" uid="uid://6fgbmn26hey7" path="res://assets/music/Cave Story.ogg" id="7_ya4ey"]
 [ext_resource type="AudioStream" uid="uid://h466ulpdbuvu" path="res://assets/music/1.10 Studiopolis Zone Act 1.mp3" id="8_eb6dy"]
 
@@ -59,7 +59,7 @@ stream_1 = ExtResource("5_85g3d")
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_jbj1t"]
 streams_count = 4
 stream_0/stream = SubResource("AudioStreamPlaylist_jkv2x")
-stream_1/stream = ExtResource("6_choun")
+stream_1/stream = ExtResource("6_tipki")
 stream_2/stream = ExtResource("7_ya4ey")
 stream_3/stream = ExtResource("8_eb6dy")
 
