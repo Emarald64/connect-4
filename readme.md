@@ -2,11 +2,14 @@
 
 ![hackatime](https://hackatime-badge.hackclub.com/U0785D5VDEK/connect-4)
 
+Connect 4 but every 8 turns you drop a bomb piece, destroying a column. 
+Be careful which pieces you destroy!
+
 Get 4 pieces in a row before your opponent does to win!
 
 Made with the Godot Engine
 
-Music
+Music:
 * What U Need - Sonic Rush [link](https://youtu.be/neN6N5tKTTU)
 * Studioopolis Zone Act 1 (Lights, Camera, Action) - Sonic Mania [link](https://youtu.be/NIWyZmFSep0)
 * Moonsong - Cave Story+ [link](https://store.steampowered.com/app/200900/Cave_Story/)

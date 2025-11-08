@@ -7,7 +7,7 @@ var physicsPieces:Array[Array]=[]
 
 var currentlyRed:=false
 
-var bombPieceProgress:=8
+var bombPieceProgress:=0
 
 var redScore:=0
 var blueScore:=0
@@ -46,7 +46,7 @@ func move(col:int,red:bool)->bool:
 	var row=0
 	while row<5 and not slots[row+1][col].filled:
 		row+=1
-	if bombPieceProgress>=10 and not red:
+	if bombPieceProgress>=8 and not red:
 		# play bomb piece
 		var piece=preload("res://scenes/bomb_piece.tscn").instantiate()
 		piece.position=Vector2((col*88)+44,0)
@@ -178,7 +178,7 @@ static func duplicateBoard(board:Array[Array]) -> Array[Array]:
 	
 func updateBombProgress()->void:
 	%BombPieceProgress.value=bombPieceProgress
-	%BombPieceProgress/Label.text=str(bombPieceProgress)+'/10'
+	%BombPieceProgress/Label.text=str(bombPieceProgress)+'/8'
 	var fillStylebox=%BombPieceProgress.get_theme_stylebox('fill')
 	if bombPieceProgress==10:
 		fillStylebox.corner_radius_top_right=10
