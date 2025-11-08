@@ -47,6 +47,7 @@ func move(col:int,red:bool)->bool:
 	while row<5 and not slots[row+1][col].filled:
 		row+=1
 	if bombPieceProgress>=10 and not red:
+		# play bomb piece
 		var piece=preload("res://scenes/bomb_piece.tscn").instantiate()
 		piece.position=Vector2((col*88)+44,0)
 		piece.get_node("Sprite2D").self_modulate=Color(1,0,0) if red else Color(0.0, 0.6, 1.0, 1.0)
@@ -54,6 +55,7 @@ func move(col:int,red:bool)->bool:
 		add_child(piece)
 		bombPieceProgress=0
 		updateBombProgress()
+		$"Placing Cooldown".wait_time=1
 	else:
 		slots[row][col].filled=true
 		slots[row][col].red=red
@@ -62,6 +64,7 @@ func move(col:int,red:bool)->bool:
 		piece.get_node('Sprite2D').modulate=Color(1,0,0) if red else Color(0.0, 0.6, 1.0, 1.0)
 		add_child(piece)
 		physicsPieces[row][col]=piece
+		$"Placing Cooldown".wait_time=0.5
 		if not red:
 			bombPieceProgress+=1
 			updateBombProgress()
@@ -71,7 +74,7 @@ func move(col:int,red:bool)->bool:
 		for i in range(2):
 				var linePoint:=Vector2(winningLine[i])
 				linePoint.x=(linePoint.x*88)+44
-				linePoint.y=(linePoint.y*86)+129
+				linePoint.y=(linePoint.y*86)+133
 				print(winningLine[i])
 				print(linePoint)
 				$Line2D.set_point_position(i,linePoint)
@@ -86,13 +89,19 @@ func move(col:int,red:bool)->bool:
 				%BlueScore.text=str(blueScore)
 				$SFXPLayer.volume_db=-10
 				$SFXPLayer.stream=preload("res://assets/tada.mp3")
+				$"Winner Label".text="YOU WIN!"
 			elif score==scoreOutcome.red:
 				$GPUParticles2D.process_material.color=Color.RED
 				redScore+=1
 				%RedScore.text=str(redScore)
 				$SFXPLayer.volume_db=-15
 				$SFXPLayer.stream=preload("res://assets/buzzer.mp3")
-		$SFXPLayer.play()
+				$"Winner Label".text="YOU LOSE!"
+			$SFXPLayer.play()
+		else:
+			$"Winner Label".text="DRAW!"
+			$GPUParticles2D.process_material.color=Color.DIM_GRAY
+		$AnimationPlayer.play('display winner')
 		$GPUParticles2D.emitting=true
 		bombPieceProgress=0
 		updateBombProgress()
@@ -130,7 +139,7 @@ static func scoreBoard(slots:Array[Array])->scoreOutcome:
 		for x in range(4):
 			if slots[y][x+3].red==slots[y+1][x+2].red and slots[y][x+3].red==slots[y+2][x+1].red and slots[y][x+3].red==slots[y+3][x].red and slots[y+3][x].filled and slots[y+2][x+1].filled and slots[y+1][x+2].filled and slots[y][x+3].filled:
 				winningLine=[Vector2i(x+3,y),Vector2i(x,y+3)]
-				return scoreOutcome.red if slots[y][x].red else scoreOutcome.blue
+				return scoreOutcome.red if slots[y][x+3].red else scoreOutcome.blue
 	
 	# draws
 	var willDraw=true
@@ -170,3 +179,10 @@ static func duplicateBoard(board:Array[Array]) -> Array[Array]:
 func updateBombProgress()->void:
 	%BombPieceProgress.value=bombPieceProgress
 	%BombPieceProgress/Label.text=str(bombPieceProgress)+'/10'
+	var fillStylebox=%BombPieceProgress.get_theme_stylebox('fill')
+	if bombPieceProgress==10:
+		fillStylebox.corner_radius_top_right=10
+		fillStylebox.corner_radius_bottom_right=10
+	else:
+		fillStylebox.corner_radius_top_right=0
+		fillStylebox.corner_radius_bottom_right=0
