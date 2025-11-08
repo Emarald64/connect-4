@@ -140,7 +140,7 @@ expand_icon = true
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
-position = Vector2(301, 612)
+position = Vector2(301, 616)
 shape = SubResource("RectangleShape2D_o5qli")
 
 [node name="Placing Cooldown" type="Timer" parent="."]
@@ -177,3 +177,4 @@ autoplay = true
 [connection signal="boardClicked" from="HBoxContainer/VBoxContainer/Board" to="." method="moveWithChangingColor"]
 [connection signal="toggled" from="HBoxContainer/PanelContainer/VBoxContainer/CheckButton" to="Music" method="set_stream_paused"]
 [connection signal="timeout" from="Placing Cooldown" to="." method="checkPlayComputerMove"]
+[connection signal="finished" from="Music" to="Music" method="play" binds= [0.0]]
