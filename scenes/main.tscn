@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=3 uid="uid://djgj8htnohbn4"]
+[gd_scene load_steps=26 format=3 uid="uid://djgj8htnohbn4"]
 
 [ext_resource type="Script" uid="uid://cvu2urblddtwg" path="res://scenes/main.gd" id="1_o5qli"]
 [ext_resource type="Texture2D" uid="uid://b3fa5nj5dppjm" path="res://assets/slot.svg" id="2_0wfyh"]
@@ -66,6 +66,18 @@ base_scale = 3.0
 _source = "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"32\" height=\"16\"><g fill-opacity=\".5\"><rect width=\"30\" height=\"14\" x=\"1\" y=\"1\" fill=\"#1a1a1a\" rx=\"7\"/><circle cx=\"8\" cy=\"8\" r=\"5\" fill=\"#fff\"/></g></svg>
 "
 base_scale = 3.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_trceg"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.28, 0.28, 0.28, 0.6)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+corner_detail = 6
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_o5qli"]
 size = Vector2(616, 20)
@@ -258,10 +270,17 @@ vertical_alignment = 1
 custom_minimum_size = Vector2(50, 120)
 layout_mode = 2
 theme_override_font_sizes/font_size = 24
-text = "Every 10 turns, you play a bomb piece which removes all pieces in the column which it is played in. Bomb Pieces can not be played filled columns"
+text = "Every 8 turns, you play a bomb piece which removes all pieces in the column which it is played in. Bomb Pieces can not be played filled columns"
 autowrap_mode = 2
 
-[node name="Mute Button" type="CheckButton" parent="HBoxContainer/PanelContainer/VBoxContainer"]
+[node name="PanelContainer2" type="PanelContainer" parent="HBoxContainer/PanelContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_85g3d")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/PanelContainer/VBoxContainer/PanelContainer2"]
+layout_mode = 2
+
+[node name="Mute Button" type="CheckButton" parent="HBoxContainer/PanelContainer/VBoxContainer/PanelContainer2/VBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
 theme_override_colors/button_unchecked_color = Color(2.807, 2.753, 2.753, 1)
@@ -270,6 +289,24 @@ theme_override_icons/unchecked = SubResource("DPITexture_a8y0u")
 text = "Mute Music"
 flat = true
 expand_icon = true
+
+[node name="Label" type="Label" parent="HBoxContainer/PanelContainer/VBoxContainer/PanelContainer2/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Music Volume"
+horizontal_alignment = 1
+
+[node name="HSlider" type="HSlider" parent="HBoxContainer/PanelContainer/VBoxContainer/PanelContainer2/VBoxContainer"]
+layout_mode = 2
+theme_override_styles/slider = SubResource("StyleBoxFlat_trceg")
+min_value = -50.0
+max_value = 0.0
+value = -20.0
+
+[node name="Button" type="Button" parent="HBoxContainer/PanelContainer/VBoxContainer/PanelContainer2/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Skip Song"
 
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
 
@@ -322,6 +359,8 @@ libraries = {
 }
 
 [connection signal="boardClicked" from="HBoxContainer/VBoxContainer/PanelContainer/Board" to="." method="moveWithChangingColor"]
-[connection signal="toggled" from="HBoxContainer/PanelContainer/VBoxContainer/Mute Button" to="Music" method="set_stream_paused"]
+[connection signal="toggled" from="HBoxContainer/PanelContainer/VBoxContainer/PanelContainer2/VBoxContainer/Mute Button" to="Music" method="set_stream_paused"]
+[connection signal="value_changed" from="HBoxContainer/PanelContainer/VBoxContainer/PanelContainer2/VBoxContainer/HSlider" to="Music" method="set_volume_db"]
+[connection signal="pressed" from="HBoxContainer/PanelContainer/VBoxContainer/PanelContainer2/VBoxContainer/Button" to="Music" method="play"]
 [connection signal="timeout" from="Placing Cooldown" to="." method="checkPlayComputerMove"]
 [connection signal="finished" from="Music" to="Music" method="play" binds= [0.0]]
