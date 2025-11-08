@@ -6,6 +6,12 @@ Get 4 pieces in a row before your opponent does to win!
 
 Made with the Godot Engine
 
+Music
+* What U Need - Sonic Rush [link](https://youtu.be/neN6N5tKTTU)
+* Studioopolis Zone Act 1 (Lights, Camera, Action) - Sonic Mania [link](https://youtu.be/NIWyZmFSep0)
+* Moonsong - Cave Story+ [link](https://store.steampowered.com/app/200900/Cave_Story/)
+* Cave Story - Cave Story Aranged by DM DOKURO [link](https://dmdokuro.bandcamp.com/album/dm-dokuro-presents-cave-story-arranged)
+
 ## To play:
 
 Run the web version or download the desktop builds from the game's page on [itch.io](https://xanderath.itch.io/)
