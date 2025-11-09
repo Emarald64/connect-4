@@ -207,6 +207,7 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_tipki")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/PanelContainer"]
 layout_mode = 2
+theme_override_constants/separation = 16
 
 [node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/PanelContainer/VBoxContainer"]
 layout_mode = 2
@@ -270,7 +271,7 @@ vertical_alignment = 1
 custom_minimum_size = Vector2(50, 120)
 layout_mode = 2
 theme_override_font_sizes/font_size = 24
-text = "Every 8 turns, you play a bomb piece which removes all pieces in the column which it is played in. Bomb Pieces can not be played filled columns"
+text = "Every 8 turns, you play a bomb piece which removes all pieces in the column which it is played in. Bomb Pieces can not be played in filled columns"
 autowrap_mode = 2
 
 [node name="PanelContainer2" type="PanelContainer" parent="HBoxContainer/PanelContainer/VBoxContainer"]
@@ -328,6 +329,7 @@ z_index = 5
 points = PackedVector2Array(0, 0, 0, 0)
 begin_cap_mode = 2
 end_cap_mode = 2
+antialiased = true
 
 [node name="GPUParticles2D" type="GPUParticles2D" parent="."]
 position = Vector2(298, 647)

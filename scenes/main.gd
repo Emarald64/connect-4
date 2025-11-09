@@ -75,8 +75,8 @@ func move(col:int,red:bool)->bool:
 				var linePoint:=Vector2(winningLine[i])
 				linePoint.x=(linePoint.x*88)+44
 				linePoint.y=(linePoint.y*86)+133
-				print(winningLine[i])
-				print(linePoint)
+				#print(winningLine[i])
+				#print(linePoint)
 				$Line2D.set_point_position(i,linePoint)
 		var time=(0.418939379961*(row**0.5))
 		clearing=true
