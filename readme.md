@@ -2,6 +2,8 @@
 
 ![hackatime](https://hackatime-badge.hackclub.com/U0785D5VDEK/connect-4)
 
+![cover image](/cover.png)
+
 Connect 4 but every 8 turns you drop a bomb piece, destroying a column. 
 Be careful which pieces you destroy!
 
@@ -17,7 +19,7 @@ Music:
 
 ## To play:
 
-Run the web version or download the desktop builds from the game's page on [itch.io](https://xanderath.itch.io/)
+Run the web version or download the desktop builds from the game's page on [itch.io](https://xanderath.itch.io/connect-4)
 
 or
 
